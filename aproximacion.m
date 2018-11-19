@@ -106,7 +106,7 @@ function [] = aproximacion(epochMax, alfa, minEtrain, valEpoch, numVal, P_traini
             auxError = currentError;
             if ct >= numVal
                 disp('Condición de finalización: Early Stopping');
-                fprintf('%d aumentos de error consecutivos', ct);
+                fprintf('%d aumentos de error consecutivos\n', ct);
                 flag=1;
                 break;
             end
