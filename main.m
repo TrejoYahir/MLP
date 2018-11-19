@@ -2,8 +2,8 @@ clear all;
 close all;
 clc;
 
-prototipos = input('Archivo de prototipos: ');
-targets = input('Archivo de targets: ');
+prototipos = input('Archivo de prototipos: ', 's');
+targets = input('Archivo de targets: ', 's');
 
 separar(prototipos, targets);    
 
@@ -16,7 +16,7 @@ T_test = dlmread('ttest.txt');
 P_verification = dlmread('pverification.txt');
 T_verification = dlmread('tverification.txt');
 
-leerAnterior = input('1) Generar W y B\n2) Usar valores finales de la ejecución anterior: \n>> ');
+leerAnterior = input('1) Generar W y B\n2) Usar valores finales de la ejecución anterior \n>> ');
 v1 = input('V1 [1 S1 ... Sn 1]: \n>> ');
 v2 = input('V2 [1 2 3]: \n>> ');
 epochMax=input('epochMax: \n>> ');

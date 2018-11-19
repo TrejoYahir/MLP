@@ -1,0 +1,39 @@
+Archivo de prototipos: 01input.txt
+Archivo de targets: 01target.txt
+Selecciona la separación de datasets: 
+1)70-15-15
+2)80-10-10
+>> 2
+1) Generar W y B
+2) Usar valores finales de la ejecución anterior: 
+>> 1
+V1 [1 S1 ... Sn 1]: 
+>> [1 3 1]
+V2 [1 2 3]: 
+>> [2 1]
+epochMax: 
+>> 3000
+alfa: 
+>> 0.0001
+error_epoch_validation: 
+>> 0.0001
+epochVal: 
+>> 150
+numVal: 
+>> 10
+Intervalo de la función [l1 l2]: 
+>> [-2 2]
+Aprendizaje iniciado: 
+   18-Nov-2018 21:52:16
+
+Condición de finalización: Se alcanzó epochmax
+EPOCH:
+        3000
+
+Aprendizaje finalizado: 
+   18-Nov-2018 21:54:22
+
+Error de entrenamiento: 0.016960
+Error de validacion: 0.001425
+Error de prueba: 0.020808
+>> 

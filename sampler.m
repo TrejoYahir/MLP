@@ -7,7 +7,7 @@ l2 = 2;
 parch = fopen('p_generated.txt','w');
 tarch = fopen('t_generated.txt','w');
 
-i = 1;
+i = 2;
 
 for j=l1:intervalo:l2
     p = j;

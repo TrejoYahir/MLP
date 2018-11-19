@@ -72,98 +72,96 @@ function [] = aproximacion(epochMax, alfa, minEtrain, valEpoch, numVal, P_traini
     end
     %% FIN DE INCIALIZACION DE VARIABLES %%
 
-    if leerAnterior == 1
-        ct = 0;
-        sumError = 0;
-        validationError = 0;
-        auxError = 0;
-        %% CICLO DE APRENDIZAJE %%
-        for epoch=1:epochMax
-            if mod(epoch, valEpoch)==0
-                %% EPOCA DE VALIDACION %%
-                validationError=0;
-                for q = 1:size(P_verification,1)
-                    [w3n,w2n,w1n,b3n,b2n,b1n,e,a]=MLP(w3,w2,w1,b3,b2,b1,P_verification,T_verification,alfa,q,0,v2);
-                    w3=w3n;
-                    w2=w2n;
-                    w1=w1n;
-                    b3=b3n;
-                    b2=b2n;
-                    b1=b1n;
-                    validationError=validationError+abs(e);
-                end
-                sumError_save = reshape((validationError/size(P_verification,1)).',1,[]);
-                if epoch/valEpoch == 1
-                    guardar(sumError_save, 'validationErrors.txt','w');
-                else
-                    guardar(sumError_save, 'validationErrors.txt','a');
-                end
-                currentError = abs(validationError/size(P_verification,1));
-                if currentError > auxError                 
-                    ct=ct+1;
-                else
-                    ct=0;
-                end
-                auxError = currentError;
-                if ct >= numVal
-                    disp('Condición de finalización: Early Stopping');
-                    printf('%d aumentos de error consecutivos', ct);
-                    flag=1;
-                    break;
-                end
+    ct = 0;
+    sumError = 0;
+    validationError = 0;
+    auxError = 0;
+    %% CICLO DE APRENDIZAJE %%
+    for epoch=1:epochMax
+        if mod(epoch, valEpoch)==0
+            %% EPOCA DE VALIDACION %%
+            validationError=0;
+            for q = 1:size(P_verification,1)
+                [w3n,w2n,w1n,b3n,b2n,b1n,e,a]=MLP(w3,w2,w1,b3,b2,b1,P_verification,T_verification,alfa,q,0,v2);
+                w3=w3n;
+                w2=w2n;
+                w1=w1n;
+                b3=b3n;
+                b2=b2n;
+                b1=b1n;
+                validationError=validationError+abs(e);
+            end
+            sumError_save = reshape((validationError/size(P_verification,1)).',1,[]);
+            if epoch/valEpoch == 1
+                guardar(sumError_save, 'validationErrors.txt','w');
             else
-                %% EPOCA DE APRENDIZAJE %%
-                sumError=0;
-                for v = 1:size(P_training,1)
-                    [w3,w2,w1,b3,b2,b1,e,a]=MLP(w3,w2,w1,b3,b2,b1,P_training,T_training,alfa,v,1,v2);
-                    w3Aux = reshape(w3.',1,[]);
-                    w2Aux = reshape(w2.',1,[]);
-                    w1Aux = reshape(w1.',1,[]);
-                    b3Aux = reshape(b3.',1,[]);
-                    b2Aux = reshape(b2.',1,[]);
-                    b1Aux = reshape(b1.',1,[]);
-                    sumError=sumError+abs(e);
-                end
-                if epoch == 1
-                    guardar(w3Aux, 'w3Text.txt','w');
-                    guardar(w2Aux, 'w2Text.txt','w');
-                    guardar(w1Aux, 'w1Text.txt','w');
-                    guardar(b3Aux, 'b3Text.txt','w');
-                    guardar(b2Aux, 'b2Text.txt','w');
-                    guardar(b1Aux, 'b1Text.txt','w');
-                else
-                    guardar(w3Aux, 'w3Text.txt','a');
-                    guardar(w2Aux, 'w2Text.txt','a');
-                    guardar(w1Aux, 'w1Text.txt','a');
-                    guardar(b3Aux, 'b3Text.txt','a');
-                    guardar(b2Aux, 'b2Text.txt','a');
-                    guardar(b1Aux, 'b1Text.txt','a');
-                end            
-                sumError_save = reshape((sumError/size(P_training,1)).',1,[]);            
-                if epoch == 1
-                    guardar(sumError_save, 'trainingErrors.txt','w');
-                else
-                    guardar(sumError_save, 'trainingErrors.txt','a');
-                end            
-                if sumError < sumErrorMenor
-                    sumErrorMenor = sumError;
-                end            
-                if abs(sumError/size(P_training,1)) < minEtrain
-                    disp('Condición de finalización: Eepoch < error_epoch_train');
-                    flag=1;
-                    break;
-                end
+                guardar(sumError_save, 'validationErrors.txt','a');
+            end
+            currentError = abs(validationError/size(P_verification,1));
+            if currentError > auxError                 
+                ct=ct+1;
+            else
+                ct=0;
+            end
+            auxError = currentError;
+            if ct >= numVal
+                disp('Condición de finalización: Early Stopping');
+                fprintf('%d aumentos de error consecutivos', ct);
+                flag=1;
+                break;
+            end
+        else
+            %% EPOCA DE APRENDIZAJE %%
+            sumError=0;
+            for v = 1:size(P_training,1)
+                [w3,w2,w1,b3,b2,b1,e,a]=MLP(w3,w2,w1,b3,b2,b1,P_training,T_training,alfa,v,1,v2);
+                w3Aux = reshape(w3.',1,[]);
+                w2Aux = reshape(w2.',1,[]);
+                w1Aux = reshape(w1.',1,[]);
+                b3Aux = reshape(b3.',1,[]);
+                b2Aux = reshape(b2.',1,[]);
+                b1Aux = reshape(b1.',1,[]);
+                sumError=sumError+abs(e);
+            end
+            if epoch == 1
+                guardar(w3Aux, 'w3Text.txt','w');
+                guardar(w2Aux, 'w2Text.txt','w');
+                guardar(w1Aux, 'w1Text.txt','w');
+                guardar(b3Aux, 'b3Text.txt','w');
+                guardar(b2Aux, 'b2Text.txt','w');
+                guardar(b1Aux, 'b1Text.txt','w');
+            else
+                guardar(w3Aux, 'w3Text.txt','a');
+                guardar(w2Aux, 'w2Text.txt','a');
+                guardar(w1Aux, 'w1Text.txt','a');
+                guardar(b3Aux, 'b3Text.txt','a');
+                guardar(b2Aux, 'b2Text.txt','a');
+                guardar(b1Aux, 'b1Text.txt','a');
+            end            
+            sumError_save = reshape((sumError/size(P_training,1)).',1,[]);            
+            if epoch == 1
+                guardar(sumError_save, 'trainingErrors.txt','w');
+            else
+                guardar(sumError_save, 'trainingErrors.txt','a');
+            end            
+            if sumError < sumErrorMenor
+                sumErrorMenor = sumError;
+            end            
+            if abs(sumError/size(P_training,1)) < minEtrain
+                disp('Condición de finalización: Eepoch < error_epoch_train');
+                flag=1;
+                break;
             end
         end
-        if flag==0
-            disp('Condición de finalización: Se alcanzó epochmax');
-        end
-        disp('EPOCH:')
-        disp(epoch)
-
-        disp('Aprendizaje finalizado: ');
-        disp(datetime('now'));
     end
+    if flag==0
+        disp('Condición de finalización: Se alcanzó epochmax');
+    end
+    disp('EPOCH:')
+    disp(epoch)
+
+    disp('Aprendizaje finalizado: ');
+    disp(datetime('now'));
 
     %% EPOCA FINAL DE PRUEBAS %%
     testError = 0;
@@ -252,10 +250,12 @@ function [] = aproximacion(epochMax, alfa, minEtrain, valEpoch, numVal, P_traini
 
    %% CALCULAR ERRORES FINALES %%
 
-    ErrorTraining = abs(sumError/(size(P_training,1)));
-    ErrorValidation= abs(auxError/(size(P_test,1)));
-    ErrorTest = abs(testError/(size(P_test,1)));
-    disp(table(ErrorTraining, ErrorValidation, ErrorTest));
+    etraining = abs(sumError/(size(P_training,1)));
+    evalidation = abs(auxError/(size(P_test,1)));
+    etest = abs(testError/(size(P_test,1)));
+    fprintf('Error de entrenamiento: %f\n',etraining);
+    fprintf('Error de validacion: %f\n',evalidation);
+    fprintf('Error de prueba: %f\n',etest);
 
     %% GRAFICAR ERRORES %%
     validationErrors = dlmread('validationErrors.txt');
