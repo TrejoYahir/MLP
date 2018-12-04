@@ -1,0 +1,38 @@
+Archivo de prototipos: 03_Polinomio_Entrada.txt
+Archivo de targets: 03_Polinomio_Target.txt
+Selecciona la separación de datasets: 
+1)70-15-15
+2)80-10-10
+>> 1
+1) Generar W y B
+2) Usar valores finales de la ejecución anterior 
+>> 2
+V1 [1 S1 ... Sn 1]: 
+>> [1 15 15 1]
+V2 [1 2 3]: 
+>> [3 2 1]
+epochMax: 
+>> 2000
+alfa: 
+>> 0.01
+error_epoch_validation: 
+>> 0.001
+epochVal: 
+>> 50
+numVal: 
+>> 5
+Intervalo de la función [l1 l2]: 
+>> [-3.5 3.5]
+Aprendizaje iniciado: 
+   03-Dec-2018 15:36:28
+
+Condición de finalización: Se alcanzó epochmax
+EPOCH:
+        2000
+
+Aprendizaje finalizado: 
+   03-Dec-2018 15:38:31
+
+Error de entrenamiento: 0.001493
+Error de validacion: 0.000019
+Error de prueba: 0.004404
